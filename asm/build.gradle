@@ -1,0 +1,41 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+repositories {
+    mavenCentral()
+    google()
+    jcenter()
+}
+
+dependencies {
+    //gradle sdk
+    implementation gradleApi()
+    //groovy sdk
+    implementation localGroovy()
+
+    implementation 'org.ow2.asm:asm:9.0'
+    implementation 'org.ow2.asm:asm-commons:9.0'
+    implementation 'org.ow2.asm:asm-analysis:9.0'
+    implementation 'org.ow2.asm:asm-util:9.0'
+    implementation 'org.ow2.asm:asm-tree:9.0'
+    compileOnly 'com.android.tools.build:gradle:3.6.4', {//这里注意需要保持版本一致，否则会报错
+        //排除gradle自带的asm库
+        exclude group:'org.ow2.asm'
+    }
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //提交到远程服务器：
+            // repository(url: "http://www.xxx.com/repos") {
+            //    authentication(userName: "admin", password: "admin")
+            // }
+            //本地的Maven
+            repository(url: uri('../repos'))
+            pom.groupId = 'com.example.asm'
+            pom.artifactId = 'myplugin'
+            pom.version = '1.0'
+        }
+    }
+}
