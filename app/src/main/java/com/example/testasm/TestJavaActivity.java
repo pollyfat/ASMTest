@@ -22,8 +22,8 @@ import butterknife.OnClick;
  */
 public class TestJavaActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @BindView(R.id.butter_knife)
-    Button bkBtn;
+//    @BindView(R.id.butter_knife)
+//    Button bkBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -81,17 +81,17 @@ public class MyPlugin extends Transform implements Plugin<Project> {
                                     String ke = classFile.absolutePath.replace(dir.absolutePath, "")
                                     modifyMap.put(ke, modified)
                                 }
-                                FileUtils.copyDirectory(directoryInput.file, dest)
-                                modifyMap.entrySet().each {
-                                    Map.Entry<String, File> en ->
-                                        File target = new File(dest.absolutePath + en.getKey())
-                                        if (target.exists()) {
-                                            target.delete()
-                                        }
-                                        FileUtils.copyFile(en.getValue(), target)
-                                        en.getValue().delete()
-                                }
                             }
+                    }
+                    FileUtils.copyDirectory(directoryInput.file, dest)
+                    modifyMap.entrySet().each {
+                        Map.Entry<String, File> en ->
+                            File target = new File(dest.absolutePath + en.getKey())
+                            if (target.exists()) {
+                                target.delete()
+                            }
+                            FileUtils.copyFile(en.getValue(), target)
+                            en.getValue().delete()
                     }
                 }
             }

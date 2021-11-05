@@ -65,15 +65,15 @@ public class MyClassVisitor extends ClassVisitor {
                     mv.visitEnd();
                 }
 
-//                if (butterKnifeClick!= null && butterKnifeClick.contains(name)) {
-//                    mv.visitVarInsn(ALOAD, 0);
-//                    mv.visitTypeInsn(CHECKCAST, "android/content/Context");
-//                    mv.visitLdcInsn("Butter Knife Toast");
-//                    mv.visitTypeInsn(CHECKCAST, "java/lang/CharSequence");
-//                    mv.visitInsn(ICONST_0);
-//                    mv.visitMethodInsn(INVOKESTATIC, "android/widget/Toast", "makeText", "(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;", false);
-//                    mv.visitMethodInsn(INVOKEVIRTUAL, "android/widget/Toast", "show", "()V", false);
-//                }
+                if (butterKnifeClick!= null && butterKnifeClick.contains(name)) {
+                    mv.visitVarInsn(ALOAD, 0);
+                    mv.visitTypeInsn(CHECKCAST, "android/content/Context");
+                    mv.visitLdcInsn("Butter Knife Toast");
+                    mv.visitTypeInsn(CHECKCAST, "java/lang/CharSequence");
+                    mv.visitInsn(ICONST_0);
+                    mv.visitMethodInsn(INVOKESTATIC, "android/widget/Toast", "makeText", "(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;", false);
+                    mv.visitMethodInsn(INVOKEVIRTUAL, "android/widget/Toast", "show", "()V", false);
+                }
 //                if (interfaces.contains("android/view/View$OnClickListener") && (name + descriptor).equals("onClick(Landroid/view/View;)V")) {
 //                    mv.visitVarInsn(ALOAD, 0);
 //                    mv.visitTypeInsn(CHECKCAST, "android/content/Context");
@@ -107,16 +107,16 @@ public class MyClassVisitor extends ClassVisitor {
                 }
             }
 
-//            @Override
-//            public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
-//                if (descriptor.equals("Lbutterknife/OnClick;")) {
-//                    if (butterKnifeClick == null) {
-//                        butterKnifeClick = new HashSet<>();
-//                    }
-//                    butterKnifeClick.add(name);
-//                }
-//                return super.visitAnnotation(descriptor, visible);
-//            }
+            @Override
+            public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+                if (descriptor.equals("Lbutterknife/OnClick;")) {
+                    if (butterKnifeClick == null) {
+                        butterKnifeClick = new HashSet<>();
+                    }
+                    butterKnifeClick.add(name);
+                }
+                return super.visitAnnotation(descriptor, visible);
+            }
         };
         return mv;
     }

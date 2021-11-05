@@ -94,7 +94,8 @@ class MyClassModifier {
                 className.contains('R2$') ||//R2.class及其子类（butterknife）
                 className.contains('R.class') ||
                 className.contains('R2.class') ||
-                className.contains('BuildConfig.class')) {
+                className.contains('BuildConfig.class')
+                /*|| className.contains('_ViewBinding')*/) {
             return false
         }
 //        /**
@@ -129,7 +130,6 @@ class MyClassModifier {
     static File modifyClassFile(File dir, File classFile, File tempDir) {
         File modified = null
         try {
-            String className = path2ClassName(classFile.absolutePath.replace(dir.absolutePath + File.separator, ""))
             byte[] sourceClassBytes = IOUtils.toByteArray(new FileInputStream(classFile))
             byte[] modifiedClassBytes = modifyClass(sourceClassBytes)
             if (modifiedClassBytes) {//这种用法相当于if(modifiedClassBytes!=null)
