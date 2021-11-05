@@ -2,13 +2,17 @@ package com.example.asm;
 
 import static org.objectweb.asm.Opcodes.ASM9;
 
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.Handle;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author: hmei
@@ -16,6 +20,9 @@ import java.util.List;
  * @email: huangmei@haohaozhu.com
  */
 public class MyClassVisitor extends ClassVisitor {
+    private Set<String> dynamicClick;
+    private Set<String> butterKnifeClick;
+
     public MyClassVisitor() {
         super(ASM9);
     }
@@ -47,17 +54,69 @@ public class MyClassVisitor extends ClassVisitor {
             @Override
             protected void onMethodEnter() {
                 super.onMethodEnter();
-                if (interfaces.contains("android/view/View$OnClickListener") && (name + descriptor).equals("onClick(Landroid/view/View;)V")) {
+                if (dynamicClick != null && dynamicClick.contains(name)) {
                     mv.visitVarInsn(ALOAD, 0);
-                    mv.visitTypeInsn(CHECKCAST, "android/content/Context");
-                    mv.visitLdcInsn("KT_PLUGIN_TOAST");
+                    mv.visitMethodInsn(INVOKEVIRTUAL, "android/view/View", "getContext", "()Landroid/content/Context;", false);
+                    mv.visitLdcInsn("Lambda Toast");
                     mv.visitTypeInsn(CHECKCAST, "java/lang/CharSequence");
                     mv.visitInsn(ICONST_0);
                     mv.visitMethodInsn(INVOKESTATIC, "android/widget/Toast", "makeText", "(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;", false);
                     mv.visitMethodInsn(INVOKEVIRTUAL, "android/widget/Toast", "show", "()V", false);
+                    mv.visitEnd();
+                }
 
+//                if (butterKnifeClick!= null && butterKnifeClick.contains(name)) {
+//                    mv.visitVarInsn(ALOAD, 0);
+//                    mv.visitTypeInsn(CHECKCAST, "android/content/Context");
+//                    mv.visitLdcInsn("Butter Knife Toast");
+//                    mv.visitTypeInsn(CHECKCAST, "java/lang/CharSequence");
+//                    mv.visitInsn(ICONST_0);
+//                    mv.visitMethodInsn(INVOKESTATIC, "android/widget/Toast", "makeText", "(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;", false);
+//                    mv.visitMethodInsn(INVOKEVIRTUAL, "android/widget/Toast", "show", "()V", false);
+//                }
+//                if (interfaces.contains("android/view/View$OnClickListener") && (name + descriptor).equals("onClick(Landroid/view/View;)V")) {
+//                    mv.visitVarInsn(ALOAD, 0);
+//                    mv.visitTypeInsn(CHECKCAST, "android/content/Context");
+//                    mv.visitLdcInsn("Interface Toast");
+//                    mv.visitTypeInsn(CHECKCAST, "java/lang/CharSequence");
+//                    mv.visitInsn(ICONST_0);
+//                    mv.visitMethodInsn(INVOKESTATIC, "android/widget/Toast", "makeText", "(Landroid/content/Context;Ljava/lang/CharSequence;I)Landroid/widget/Toast;", false);
+//                    mv.visitMethodInsn(INVOKEVIRTUAL, "android/widget/Toast", "show", "()V", false);
+//
+//                }
+                }
+
+            @Override
+            protected void onMethodExit(int opcode) {
+                super.onMethodExit(opcode);
+
+            }
+
+            @Override
+            public void visitInvokeDynamicInsn(String name, String descriptor, Handle bootstrapMethodHandle, Object... bootstrapMethodArguments) {
+                super.visitInvokeDynamicInsn(name, descriptor, bootstrapMethodHandle, bootstrapMethodArguments);
+                if (name.equals("onClick") && descriptor.contains("Landroid/view/View$OnClickListener;")) {
+                    if (dynamicClick == null) {
+                        dynamicClick = new HashSet<>();
+                    }
+                    if (bootstrapMethodArguments != null && bootstrapMethodArguments.length > 2) {
+                        if (bootstrapMethodArguments[1] instanceof Handle) {
+                            dynamicClick.add(((Handle) bootstrapMethodArguments[1]).getName());
+                        }
+                    }
                 }
             }
+
+//            @Override
+//            public AnnotationVisitor visitAnnotation(String descriptor, boolean visible) {
+//                if (descriptor.equals("Lbutterknife/OnClick;")) {
+//                    if (butterKnifeClick == null) {
+//                        butterKnifeClick = new HashSet<>();
+//                    }
+//                    butterKnifeClick.add(name);
+//                }
+//                return super.visitAnnotation(descriptor, visible);
+//            }
         };
         return mv;
     }
