@@ -2,15 +2,12 @@ package com.example.testasm;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -33,7 +30,7 @@ public class TestJavaActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.lambda_btn).setOnClickListener(v -> {
 
         });
-        findViewById(R.id.current_this).setOnClickListener(this);
+        findViewById(R.id.interface_click).setOnClickListener(this);
     }
 
     @Override

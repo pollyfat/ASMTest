@@ -3,28 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="wrap_content" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/lambda_btn"
         android:layout_width="wrap_content"
-        android:text="Lambda Click listener"
         android:layout_height="wrap_content"
+        android:text="Lambda Click listener"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
     <Button
-        android:id="@+id/current_this"
+        android:id="@+id/interface_click"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Interface Click listener"
@@ -39,5 +38,15 @@
         android:text="ButterKnife listener"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/current_this" />
+        app:layout_constraintTop_toBottomOf="@+id/interface_click" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:text="Show Dialog"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/show_dialog_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/butter_knife"
+        android:layout_height="wrap_content" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
